@@ -1,11 +1,14 @@
 <?php
 
+session_start();
+
+
 echo '<a href=".">back</a></br>';
 
 require('./vendor/autoload.php');
 
 
-$conf = json_decode(file_get_contents("config.json"));
+$conf = getconffile();
 
 if (
     empty($conf->password)
@@ -16,12 +19,34 @@ if (
     )
 ) {
 
+    if ($conf->folderbysession) {
+        
+        if (!isset($_SESSION['timestamp'])) {
+            $now = new DateTimeImmutable();
+            $timestamp = $now->format(DATE_ISO8601);
+            $_SESSION['timestamp'] = $timestamp;
+        } else {
+            $timestamp = $_SESSION['timestamp'];
+        }
+
+        $uploadfolder = 'test';
+        $dir = $uploadfolder . '/' . $timestamp;
+
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+
+    } else {
+        $dir = $uploadfolder . '/';
+    }
+
 
     // Simple validation (max file size 2MB )
     $validator = new FileUpload\Validator\Simple($conf->maxuploadsize);
 
     // Simple path resolver, where uploads will be put
-    $pathresolver = new FileUpload\PathResolver\Simple('test/');
+    $pathresolver = new FileUpload\PathResolver\Simple($dir);
+
 
     $filenamegenerator = new FileUpload\FileNameGenerator\Slug();
 
@@ -46,17 +71,49 @@ if (
         header($header . ': ' . $value);
     }
 
-    var_dump(['files' => $files]);
 
-    foreach($files as $file){
-        //Remeber to check if the upload was completed
+    $satus = [];
+
+    foreach($files as $key => $file){
+        
+        $status[$key]['name'] = $file->getFilename();
+        $status[$key]['size'] = readablesize($file->size) .'o';
         if ($file->completed) {
-            echo $file->getRealPath();
-            
-            // Call any method on an SplFileInfo instance
-            var_dump($file->isFile());
+            if ($file->isFile()) {
+                $status[$key]['message'] = "file uploaded successfully";
+            }
+        } else {
+            $status[$key]['message'] = $file->error;
         }
     }
+
+
+?>
+
+<table>
+
+    <thead>
+        <tr>
+            <th>name</th><th>size</th><th>status</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        
+    <?php foreach ($status as $file) { ?>
+        <tr>
+            <td><?= $file['name'] ?></td>
+            <td><?= $file['size'] ?></td>
+            <td><?= $file['message'] ?></td>
+        </tr>
+    <?php } ?>
+        
+    </tbody>
+
+</table>
+
+
+<?php
 
 } else {
     echo '<p>wrong password</p>';

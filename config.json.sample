@@ -1,4 +1,7 @@
 {
-    "maxuploadsize": "2M",
-    "password": ""
+    "maxuploadsize": "10M",
+    "password": "",
+    "folderbysession": "true",
+    "title": "",
+    "message": "Upload your files here"
 }

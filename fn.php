@@ -66,6 +66,24 @@ function readablesize($bytes, $base = 2 ** 10)
     return sprintf($format, $num, $unit);
 }
 
+/**
+ * @return Anonymous object conataining config settings
+ * @throws Exception if file does not exist or json format is invalid
+ */
+function getconffile()
+{
+    if (is_file('config.json')) {
+        $json = json_decode(file_get_contents("config.json"));
+        if (empty($json)) {
+            throw new Exception("Config file format error", 1);
+        } else {
+            return $json;
+        }
+    } else {
+        throw new Exception("Can't find config file", 1);
+        
+    }
+}
 
 
 ?>
