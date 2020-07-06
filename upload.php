@@ -19,6 +19,11 @@ if (
     )
 ) {
 
+
+    if (!is_dir($conf->uploadfolder)) {
+        mkdir($conf->uploadfolder, 0777, true);
+    }
+
     if ($conf->folderbysession) {
         
         if (!isset($_SESSION['timestamp'])) {
@@ -29,15 +34,14 @@ if (
             $timestamp = $_SESSION['timestamp'];
         }
 
-        $uploadfolder = 'test';
-        $dir = $uploadfolder . '/' . $timestamp;
+        $dir = $conf->uploadfolder . '/' . $timestamp;
 
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
 
     } else {
-        $dir = $uploadfolder . '/';
+        $dir = $conf->uploadfolder . '/';
     }
 
 

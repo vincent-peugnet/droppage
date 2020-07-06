@@ -12,6 +12,10 @@ try {
     exit;
 }
 
+if (empty($conf->uploadfolder)) {
+    echo 'upload folder not set !';
+    exit;
+}
 
 ?>
 

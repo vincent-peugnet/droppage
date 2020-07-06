@@ -1,5 +1,6 @@
 {
-    "maxuploadsize": "10M",
+    "uploadfolder": "test",
+    "maxuploadsize": "15M",
     "password": "",
     "folderbysession": "true",
     "title": "",
