@@ -5,10 +5,11 @@ session_start();
 
 echo '<a href=".">back</a></br>';
 
-require('./vendor/autoload.php');
+require_once('vendor/autoload.php');
 
+$conf = new Droppage\Config();
 
-$conf = getconffile();
+var_dump($conf);
 
 if (
     empty($conf->password)

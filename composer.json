@@ -1,10 +1,13 @@
 {
-    "name": "droppage",
+    "name": "droppage/droppage",
     "description": "simple page to upload file on a server",
     "require": {
       "gargron/fileupload": "~1.4.0"
     },
     "autoload": {
+        "psr-4": {
+            "Droppage\\": "class/"
+        },
         "files": ["fn.php"]
     }
 }

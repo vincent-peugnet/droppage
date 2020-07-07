@@ -2,15 +2,11 @@
 
 session_start();
 
-require('fn.php');
+require_once('vendor/autoload.php');
 
+$conf = new Droppage\Config();
 
-try {
-    $conf = getconffile();
-} catch (\Exception $e) {
-    echo $e->getMessage();
-    exit;
-}
+var_dump($conf);
 
 if (empty($conf->uploadfolder)) {
     echo 'upload folder not set !';
@@ -21,7 +17,7 @@ if (empty($conf->uploadfolder)) {
 
 <h1><?= !empty($conf->title) && is_string($conf->title) ? $conf->title : 'DropPage' ?></h1>
 
-<?= !empty($conf->message) && is_string($conf->message) ? '<p><strong>' . $conf->message .'</strong></p>' : '' ?>
+<?= !empty($conf->description) && is_string($conf->description) ? '<p><strong>' . $conf->description .'</strong></p>' : '' ?>
 
 <hr>
 
