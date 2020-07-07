@@ -10,6 +10,7 @@ class Config
     public $folderbysession = false;
     public $title = "DropPage";
     public $description = "";
+    public $debug = false;
 
     public function __construct() {
         $this->readconfig();
@@ -82,6 +83,11 @@ class Config
         if (is_string($description)) {
             $this->description = $description;
         }
+    }
+
+    public function setdebug($debug)
+    {
+        $this->debug = boolval($debug);
     }
 }
 

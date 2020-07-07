@@ -9,7 +9,10 @@ require_once('vendor/autoload.php');
 
 $conf = new Droppage\Config();
 
-var_dump($conf);
+
+if ($conf->debug) {
+    echo '<pre>' . var_dump($conf) . '</pre>';
+}
 
 if (
     empty($conf->password)
