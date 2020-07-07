@@ -1,8 +1,11 @@
 {
-    "uploadfolder": "test",
-    "maxuploadsize": "15M",
+    "uploadfolder": "uploaded-files",
+    "maxuploadsize": "20M",
     "password": "",
-    "folderbysession": "true",
-    "title": "",
-    "message": "Upload your files here"
+    "folderbysession": false,
+    "title": "Drop Page",
+    "description": "Upload your files here",
+    "paragraph": "Open source project by Vincent Peugnet availiable on <a href=\"https://github.com/vincent-peugnet/droppage\" target=\"_blank\" >github</a>",
+    "debug": false,
+    "logo": "assets/default.jpg"
 }

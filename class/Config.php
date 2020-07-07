@@ -8,9 +8,12 @@ class Config
     public $maxuploadsize = "20M";
     public $password = "";
     public $folderbysession = false;
-    public $title = "DropPage";
+    public $title = "";
     public $description = "";
+    public $paragraph = "";
     public $debug = false;
+    public $logo = "";
+
 
     public function __construct() {
         $this->readconfig();
@@ -85,9 +88,23 @@ class Config
         }
     }
 
+    public function setparagraph($paragraph)
+    {
+        if (is_string($paragraph)) {
+            $this->paragraph = $paragraph;
+        }
+    }
+
     public function setdebug($debug)
     {
         $this->debug = boolval($debug);
+    }
+
+    public function setlogo($logo)
+    {
+        if (is_string($logo)) {
+            $this->logo = $logo;
+        }
     }
 }
 

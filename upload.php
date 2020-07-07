@@ -3,7 +3,8 @@
 session_start();
 
 
-echo '<a href=".">back</a></br>';
+$status = [];
+$pass = "";
 
 require_once('vendor/autoload.php');
 
@@ -11,17 +12,19 @@ $conf = new Droppage\Config();
 
 
 if ($conf->debug) {
-    echo '<pre>' . var_dump($conf) . '</pre>';
+    highlight_string("<?php\n\$conf =\n" . var_export($conf, true));
 }
 
 if (
-    empty($conf->password)
-    ||
+    !empty($conf->password)
+    &&
     (
-        !empty($_POST['password'])
-        && $conf->password === $_POST['password']
+        empty($_POST['password'])
+        || $conf->password !== $_POST['password']
     )
 ) {
+    header("Location: ./?error=wrongpassword");
+} else {
 
 
     if (!is_dir($conf->uploadfolder)) {
@@ -80,7 +83,6 @@ if (
     }
 
 
-    $satus = [];
 
     foreach($files as $key => $file){
         
@@ -95,41 +97,51 @@ if (
         }
     }
 
-
-?>
-
-<table>
-
-    <thead>
-        <tr>
-            <th>name</th><th>size</th><th>status</th>
-        </tr>
-    </thead>
-    <tbody>
-
-        
-    <?php foreach ($status as $file) { ?>
-        <tr>
-            <td><?= $file['name'] ?></td>
-            <td><?= $file['size'] ?></td>
-            <td><?= $file['message'] ?></td>
-        </tr>
-    <?php } ?>
-        
-    </tbody>
-
-</table>
-
-
-<?php
-
-} else {
-    echo '<p>wrong password</p>';
 }
 
-
 ?>
 
 
+<html>
 
+    <head>
+        <meta charset="utf-8">
+        <title><?= $conf->title ?></title>
+        <meta name="description" content="<?= $conf->description ?>">
+        <meta name="viewport" content="width=device-width">
+        <meta property="og:title" content="<?= $conf->title ?>">
+        <meta property="og:description" content="<?= $conf->description ?>">
+        <link href="default.css" rel="stylesheet">
+        <?= file_exists('custom.css') ? '<link href="custom.css" rel="stylesheet">' : '' ?>
+    </head>
 
+    <body>
+
+    <a href=".">back</a></br>
+        
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>name</th><th>size</th><th>status</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                
+            <?php foreach ($status as $file) { ?>
+                <tr>
+                    <td><?= $file['name'] ?></td>
+                    <td><?= $file['size'] ?></td>
+                    <td><?= $file['message'] ?></td>
+                </tr>
+            <?php } ?>
+                
+            </tbody>
+
+        </table>
+
+    </body>
+
+</html>
