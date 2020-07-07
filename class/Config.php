@@ -55,7 +55,7 @@ class Config
         }
     }
 
-    public function maxuploadsize($maxuploadsize)
+    public function setmaxuploadsize($maxuploadsize)
     {
         if (is_string($maxuploadsize)) {
             $this->maxuploadsize = $maxuploadsize;
